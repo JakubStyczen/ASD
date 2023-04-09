@@ -1,0 +1,117 @@
+Zaimplementuj w języku Python drzewo binarne BST. Niech będzie zaimplementowane za pomocą dwóch klas: pierwsza klasa zawiera pole root wskazujące na korzeń drzewa (ang. root node), druga klasa reprezentuje węzeł drzewa i zawiera cztery pola: klucz, wartość oraz wskaźniki na dwa węzły dzieci (ang. child node) - prawe i lewe rozgałęzienie.
+
+Zaimplementuj poniższe funkcjonalności:
+konstruktor - tworzy obiekt reprezentujący drzewo z polem root ustawionym na None
+search - wyszukująca i zwracająca wartość odpowiadającą podanemu kluczowi (lub None)
+insert - wstawiająca daną wg podanego klucza, jeżeli element o takim kluczu istnieje, jego wartość powinna zostać nadpisana (funkcja pamięta poprzednika, patrz wykład)
+delete -  usuwająca daną o podanym kluczu
+print - wypisująca zawartość drzewa jako listę elementów ułożonych od najmniejszego do największego klucza wypisanych tak jap pokazano w przykładzie poniżej
+height - metoda zwracająca maksymalną wysokość od korzenia do węzła nieposiadającego kolejnych potomków (leaf node)  - najdłuższa ścieżka w drzewie
+
+Funkcja search wykonuje wyszukiwanie elementu w drzewie na podstawie klucza w wersji rekurencyjnej.
+Funkcja insert tworzy kolejne elementy drzewa na podstawie podanego klucza, prawe rozgałęzienie zawiera klucze większe niż klucz w węźle rodzic (parent node), lewe rozgałęzenie zawiera klucze mniejsze niż klucz w węźle rodzic.
+
+Funkcja delete usuwa element drzewa na podstawie podanego klucza. Należy uwzględnić trzy przypadki:
+usunięcie węzła, który nie posiada węzłów dzieci (child nodes)
+usunięcie węzła z jednym dzieckiem 
+usunięcie węzła, który posiada dwa węzły dzieci - usuwany węzeł zastępujemy minimalnym kluczem z prawego poddrzewa (ang. right subtree) - successor node
+Funkcja print_tree wypisująca całą strukturę drzewa w formie 2D:
+    def print_tree(self):
+        print("==============")
+        self.__print_tree(self.root, 0)
+        print("==============")
+
+    def __print_tree(self, node, lvl):
+        if node!=None:
+            self.__print_tree(node.right, lvl+5)
+
+            print()
+            print(lvl*" ", node.key, node.data)
+     
+            self.__print_tree(node.left, lvl+5)
+ 
+
+W main-ie sprawdź działanie zaimplementowanego drzewa przez:
+
+utworzenie pustego drzewa BST
+dodanie kolejno elementy klucz:wartość -- {50:'A', 15:'B', 62:'C', 5:'D', 20:'E', 58:'F', 91:'G', 3:'H', 8:'I', 37:'J', 60:'K', 24:'L'}, tworząc drzewo o podanej strukturze, jak na rysunku: 
+
+
+wypis drzewo 2D (funkcją print_tree)
+wyświetl zawartość drzewa jako listę elementów ułożonych od najmniejszego do największego klucza wypisanych w postaci klucz wartość - przykładowo powyższe drzewo powinno być wypisane tak:
+3 H,5 D,8 I,15 B,20 E,24 L,37 J,50 A,58 F,60 K,62 C,91 G,
+
+znajdź klucz 24 i wypisz wartość
+zaktualizuj wartość "AA" dla klucza 20
+dodaj element 6:M
+usuń element o kluczu 62
+dodaj element 59:N
+dodaj element 100:P
+usuń element o kluczu 8
+usuń element o kluczu 15
+wstaw element 55:R
+usuń element o kluczu 50
+usuń element o kluczu 5
+usuń element o kluczu 24
+wypisz wysokość drzewa
+wyświetl zawartość drzewa jako listę elementów
+wyświetl drzewo 2D
+Efekt końcowy:
+
+
+
+
+
+
+
+Zaimplementuj w języku Python drzewo AVL przerabiając program z poprzedniego zadania (np. przez dziedziczenie). Klasa reprezentująca węzeł drzewa powinna zawierać dodatkowe pole wykorzystywane do  równoważenia drzewa (może to być pole przechowujące wysokość węzła). Klasa reprezentująca drzewo powinna mieć zmodyfikowane metody dodawania i usuwania węzłów (szczegóły poniżej). Po wykonaniu operacji dodawania lub usuwania węzłów odbywa się określona operacja rotacji węzłów, która przywraca zrównoważenie drzewa binarnego.
+
+Zaimplementuj funkcjonalności takie jak w drzewie BST w poprzednim zadaniu. Należy jednak tym razem przy dodawaniu i usuwaniu węzłów uwzględnić równoważenie drzewa. W tym celu należy zaimplementować funkcje, które będą realizować rotację w lewo oraz rotację w prawo. 
+
+Będą one przydatne w uwzględnieniu czterech przypadków:
+pojedyczna rotacja LL (ang. left-left)
+pojedyncza rotacja RR (ang. right-right)
+podwójna rotacja RL (ang. right-left)
+podwójna rotacja LR (ang. left-right)
+Oznaczenia RR, LL, RL i LR określają sposób połączenia węzłów przed wykonaniem rotacji.
+
+W przypadku braku zrównoważenia drzewa AVL konieczna jest odpowiednia rotacja konkretnych węzłów.
+Przykład uwzględniający podwójną rotację RL:
+
+
+
+Cyfry pod literami A, B i C są wartościami tzw. współczynnika wyważenia. Można przyjąć, że jest to różnica wysokości lewego i prawego poddrzewa.
+
+Współczynnik wyważenia korzenia jest mniejszy od zera, więc wymaga rotacji w lewo. Zanim zostanie wykonana dodatkowo sprawdzany jest współczynnik wyważenia prawego dziecka. Jeśli dziecko ma współczynnik wyważenia większy od zera (dłuższa lewa gałąź) to wymagana jest rotacja w prawo względem dziecka. Po niej dopiero następuje rotacja w lewo względem korzenia.
+
+
+Każde dodanie nowego i usunięcie istniejącego węzła powinno spowodować przeliczenie na nowo wysokości jego rodzica (i dalszych przodków). Korzysta się tu z tego, że wysokość węzła jest o jeden większa od wysokości 'wyższego' potomka.
+
+Również każda rotacja  również wymaga przeliczenia rotowanych węzłów (tylko dwóch - proszę się zastanowić których).
+
+
+W main-ie sprawdź działanie zaimplementowanego drzewa przez:
+
+utworzenie pustego drzewa BST
+dodanie kolejno elementy klucz:wartość -- {50:'A', 15:'B', 62:'C', 5:'D', 2:'E', 1:'F', 11:'G', 100:'H', 7:'I', 6:'J', 55:'K', 52:'L', 51:'M', 57:'N', 8:'O', 9:'P', 10:'R', 99:'S', 12:'T'} tworząc drzewo o podanej strukturze, jak na rysunku: 
+
+Dla porównania tak wygląda drzewo niewyważone, czyli drzewo BST:
+
+
+
+wyświetl drzewo 2D
+wyświetl zawartość drzewa jako listę od najmniejszego do największego klucza w formie klucz:wartość
+wyszukaj element o kluczu 10 i wypisz wartość
+usuń element o kluczu 50
+usuń element o kluczu 52
+usuń element o kluczu 11
+usuń element o kluczu 57
+usuń element o kluczu 1
+usuń element o kluczu 12
+dodaj element o kluczu 3:AA
+dodaj element o kluczu 4:BB
+usuń element o kluczu 7
+usuń element o kluczu 8
+wyświetl drzewo 2D
+wyświetl zawartość drzewa jako listę od najmniejszego do największego klucza w formie klucz:wartość
+Efekt końcowy:
